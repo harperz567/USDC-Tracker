@@ -1,0 +1,30 @@
+specVersion: 1.2.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: TrackTokens
+    network: mainnet
+    source:
+      address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"
+      abi: TrackTokens
+      startBlock: 21919621
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Transfer
+        - Account
+        - Statistic
+        - DailyVolume
+        - AccountBalance
+      abis:
+        - name: TrackTokens
+          file: ./abis/TrackTokens.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,uint256)
+          handler: handleTransfer
+      file: ./src/track-tokens.ts

@@ -1,0 +1,39 @@
+type Transfer @entity {
+  id: ID!
+  from: Account!
+  to: Account!
+  value: BigInt!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}
+
+type Account @entity {
+  id: ID!
+  balance: BigInt!
+  transfersSent: [Transfer!]! @derivedFrom(field: "from")
+  transfersReceived: [Transfer!]! @derivedFrom(field: "to")
+}
+
+type Statistic @entity {
+  id: ID!
+  totalTransfers: BigInt!
+  totalVolume: BigInt!
+  activeAccounts: BigInt!
+  dailyVolume: [DailyVolume!]! @derivedFrom(field: "statistic")
+}
+
+type DailyVolume @entity {
+  id: ID!
+  statistic: Statistic!
+  date: String!
+  volume: BigInt!
+  transferCount: BigInt!
+}
+
+type AccountBalance @entity {
+  id: ID!
+  account: Account!
+  balance: BigInt!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+}
